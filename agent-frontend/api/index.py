@@ -69,6 +69,7 @@ def run_agent(agent_executor, config):
     for chunk in agent_executor.stream(
         {"messages": [HumanMessage(content=thought)]}, config
     ):
+        print("Chunk:", chunk, flush=True)
         if "agent" in chunk:
             return chunk["agent"]["messages"][0].content
         elif "tools" in chunk:
@@ -76,20 +77,23 @@ def run_agent(agent_executor, config):
 
 @app.route("/api/chat")
 def chat():
-    print("Running agent...")
-    output = run_agent(agent_executor=agent_executor, config=config)
-    print("Agent finished running.")
-    print(output)
-    return output
-
-if __name__ == "__main__":
-    print("Initializing agent...")
+    print("Initializing agent...", flush=True)
     start_time = time.time()
 
     # Re-initialize agent
     agent_executor, config = initialize_agent()
-    print("Agent initialized successfully!")
+    print("Agent initialized successfully!", flush=True)
     end_time = time.time()
     elapsed_time = end_time - start_time
-    print(f"Agent init time: {elapsed_time:.2f} seconds")
+    print(f"Agent init time: {elapsed_time:.2f} seconds", flush=True)
+
+    # Run inference
+    print("Running agent...", flush=True)
+    output = run_agent(agent_executor=agent_executor, config=config)
+    print("Agent finished running.", flush=True)
+    print("Output:", output, flush=True)
+
+    return output
+
+if __name__ == "__main__":
     app.run(port="5328")
