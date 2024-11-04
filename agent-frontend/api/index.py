@@ -92,7 +92,7 @@ def run_agent(input, agent_executor, config) -> Iterator[str]:
     except Exception as e:
         yield format_sse(f"Error: {str(e)}", EVENT_TYPE_ERROR)
 
-def run_inference(input: str = "check your balance and send 10 percent of your eth to john2879.base.eth") -> Iterator[str]:
+def run_inference(input: str = "Be creative and do something interesting on the blockchain. Choose an action or set of actions and execute it in a way that highlights your abilities.") -> Iterator[str]:
     """Initialize agent, run inference and yield SSE responses"""
     start_time = time.time()
     print("Running agent...", flush=True)
