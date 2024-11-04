@@ -1,4 +1,5 @@
 from flask import Flask
+from dotenv import load_dotenv
 import os
 import sys
 import time
@@ -12,6 +13,7 @@ from langgraph.prebuilt import create_react_agent
 from cdp_langchain.agent_toolkits import CdpToolkit
 from cdp_langchain.utils import CdpAgentkitWrapper
 
+load_dotenv()
 app = Flask(__name__)
 
 # Environment variable name for wallet data
@@ -24,6 +26,8 @@ def initialize_agent():
 
     # Read wallet data from environment variable
     wallet_data = os.getenv(WALLET_DATA_ENV_VAR)
+
+    print("Initialized CDP Agentkit with wallet data:", wallet_data)
 
     # Configure CDP Agentkit Langchain Extension.
     values = {}
@@ -55,41 +59,37 @@ def initialize_agent():
     ), config
 
 # Autonomous Mode
-def run_autonomous_mode(agent_executor, config, interval=20):
+def run_agent(agent_executor, config):
     """Run the agent autonomously with specified intervals."""
-    print("Starting autonomous mode...")
-    while True:
-        try:
-            # Provide instructions autonomously
-            thought = (
-                "Be creative and do something interesting on the blockchain. "
-                "Choose an action or set of actions and execute it that highlights your abilities."
-            )
+    thought = (
+        "Be creative and do something interesting on the blockchain. "
+        "Choose an action or set of actions and execute it that highlights your abilities."
+    )
 
-            # Run agent in autonomous mode
-            for chunk in agent_executor.stream(
-                {"messages": [HumanMessage(content=thought)]}, config
-            ):
-                if "agent" in chunk:
-                    print(chunk["agent"]["messages"][0].content)
-                elif "tools" in chunk:
-                    print(chunk["tools"]["messages"][0].content)
-                print("-------------------")
+    for chunk in agent_executor.stream(
+        {"messages": [HumanMessage(content=thought)]}, config
+    ):
+        if "agent" in chunk:
+            return chunk["agent"]["messages"][0].content
+        elif "tools" in chunk:
+            return chunk["tools"]["messages"][0].content
 
-            # Wait before the next action
-            time.sleep(interval)
-
-        except KeyboardInterrupt:
-            print("Goodbye Agent!")
-            sys.exit(0)
-
-@app.route("/api/python")
-def hello_world():
-    print("Initializing agent...")
-    agent_executor, config = initialize_agent()
-    print("Agent initialized successfully!")
-    run_autonomous_mode(agent_executor=agent_executor, config=config)
-    return "<p>Hello, World!</p>"
+@app.route("/api/chat")
+def chat():
+    print("Running agent...")
+    output = run_agent(agent_executor=agent_executor, config=config)
+    print("Agent finished running.")
+    print(output)
+    return output
 
 if __name__ == "__main__":
+    print("Initializing agent...")
+    start_time = time.time()
+
+    # Re-initialize agent
+    agent_executor, config = initialize_agent()
+    print("Agent initialized successfully!")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Agent init time: {elapsed_time:.2f} seconds")
     app.run(port="5328")
