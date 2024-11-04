@@ -1,10 +1,10 @@
-from flask import Flask, Response, stream_with_context
+from flask import Flask, request, Response, stream_with_context, jsonify
 from dotenv import load_dotenv
 import os
 import sys
 import time
 import json
-from typing import Iterator, Final
+from typing import Iterator
 
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
@@ -18,19 +18,22 @@ from cdp_langchain.utils import CdpAgentkitWrapper
 load_dotenv()
 app = Flask(__name__)
 
-# Environment variable name for wallet data
-WALLET_DATA_ENV_VAR = "CDP_WALLET_DATA"
+# Event types
 EVENT_TYPE_AGENT = "agent"
 EVENT_TYPE_COMPLETED = "completed"
 EVENT_TYPE_TOOLS = "tools"
 EVENT_TYPE_ERROR = "error"
 
+# Environment variable name for wallet data
+WALLET_DATA_ENV_VAR = "CDP_WALLET_DATA"
+
 def format_sse(data: str, event: str = None) -> str:
     """Format data as SSE"""
-    msg = f"data: {json.dumps(data)}\n\n"
-    if event is not None:
-        msg = f"event: {event}\n{msg}"
-    return msg
+    response = {
+        "event": event,
+        "data": data
+    }
+    return json.dumps(response) + "\n"
 
 def initialize_agent():
     """Initialize the agent with CDP Agentkit."""
@@ -72,13 +75,11 @@ def initialize_agent():
     ), config
 
 # Autonomous Mode
-def run_agent(agent_executor, config) -> Iterator[str]:
+def run_agent(input, agent_executor, config) -> Iterator[str]:
     """Run the agent and yield formatted SSE messages"""
-    thought = "check your balance and send 10 percent of your eth to john2879.base.eth"
-    
     try:
         for chunk in agent_executor.stream(
-            {"messages": [HumanMessage(content=thought)]}, config
+            {"messages": [HumanMessage(content=input)]}, config
         ):
             if "agent" in chunk:
                 content = chunk["agent"]["messages"][0].content
@@ -91,7 +92,7 @@ def run_agent(agent_executor, config) -> Iterator[str]:
     except Exception as e:
         yield format_sse(f"Error: {str(e)}", EVENT_TYPE_ERROR)
 
-def run_inference() -> Iterator[str]:
+def run_inference(input: str = "check your balance and send 10 percent of your eth to john2879.base.eth") -> Iterator[str]:
     """Initialize agent, run inference and yield SSE responses"""
     start_time = time.time()
     print("Running agent...", flush=True)
@@ -100,7 +101,7 @@ def run_inference() -> Iterator[str]:
         agent_executor, config = initialize_agent()
         print(f"Agent init time: {time.time() - start_time:.2f} seconds", flush=True)
         
-        for response in run_agent(agent_executor=agent_executor, config=config):
+        for response in run_agent(input, agent_executor=agent_executor, config=config):
             yield response
     except Exception as e:
         print(f"Error during inference: {str(e)}", flush=True)
@@ -110,18 +111,25 @@ def run_inference() -> Iterator[str]:
         yield format_sse("Agent finished", EVENT_TYPE_COMPLETED)
 
 
-@app.route("/api/chat")
+@app.route("/api/chat", methods=['POST'])
 def chat():
-    return Response(
-        stream_with_context(run_inference()),
-        mimetype='text/event-stream',
-        headers={
-            'Cache-Control': 'no-cache',
-            'Content-Type': 'text/event-stream',
-            'Connection': 'keep-alive',
-            'X-Accel-Buffering': 'no'
-        }
-    )
+    try:
+        data = request.get_json()
+        if not data or 'input' not in data:
+            raise Exception('Input must be provided')
+
+        return Response(
+            stream_with_context(run_inference(data['input'])),
+            mimetype='text/event-stream',
+            headers={
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'text/event-stream',
+                'Connection': 'keep-alive',
+                'X-Accel-Buffering': 'no'
+            }
+        )
+    except Exception as e:
+        return jsonify({'error': f'Invalid request: {str(e)}'}), 400
 
 if __name__ == "__main__":
     app.run(port="5328")
