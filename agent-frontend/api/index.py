@@ -18,6 +18,10 @@ from cdp_langchain.utils import CdpAgentkitWrapper
 load_dotenv()
 app = Flask(__name__)
 
+class InputValidationError(Exception):
+    """Custom exception for input validation errors"""
+    pass
+
 # Event types
 EVENT_TYPE_AGENT = "agent"
 EVENT_TYPE_COMPLETED = "completed"
@@ -116,7 +120,7 @@ def chat():
     try:
         data = request.get_json()
         if not data or 'input' not in data:
-            raise Exception('Input must be provided')
+            raise InputValidationError('Input must be provided')
 
         return Response(
             stream_with_context(run_inference(data['input'])),
@@ -128,8 +132,11 @@ def chat():
                 'X-Accel-Buffering': 'no'
             }
         )
+    except InputValidationError as e:
+        return jsonify({'error': 'Invalid request: Missing required input'}), 400
     except Exception as e:
-        return jsonify({'error': f'Invalid request: {str(e)}'}), 400
+        app.logger.error(f"Unexpected error in chat endpoint: {str(e)}")
+        return jsonify({'error': 'An unexpected error occurred'}), 500
 
 if __name__ == "__main__":
     app.run(port="5328")
