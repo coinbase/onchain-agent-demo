@@ -4,7 +4,7 @@ import os
 import sys
 import time
 import json
-from typing import Iterator
+from typing import Iterator, Final
 
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
@@ -20,6 +20,10 @@ app = Flask(__name__)
 
 # Environment variable name for wallet data
 WALLET_DATA_ENV_VAR = "CDP_WALLET_DATA"
+EVENT_TYPE_AGENT = "agent"
+EVENT_TYPE_COMPLETED = "completed"
+EVENT_TYPE_TOOLS = "tools"
+EVENT_TYPE_ERROR = "error"
 
 def format_sse(data: str, event: str = None) -> str:
     """Format data as SSE"""
@@ -47,9 +51,9 @@ def initialize_agent():
     agentkit = CdpAgentkitWrapper(**values)
 
     # Export and store the updated wallet data back to environment variable
-    wallet_data = agentkit.export_wallet()
-    print("Exporting wallet data:", wallet_data)
-    os.environ[WALLET_DATA_ENV_VAR] = wallet_data
+    # wallet_data = agentkit.export_wallet()
+    # print("Exporting wallet data:", wallet_data)
+    # os.environ[WALLET_DATA_ENV_VAR] = wallet_data
 
     # Initialize CDP Agentkit Toolkit and get tools.
     cdp_toolkit = CdpToolkit.from_cdp_agentkit_wrapper(agentkit)
@@ -79,54 +83,37 @@ def run_agent(agent_executor, config) -> Iterator[str]:
             if "agent" in chunk:
                 content = chunk["agent"]["messages"][0].content
                 if content:
-                    yield format_sse(content, "agent")
+                    yield format_sse(content, EVENT_TYPE_AGENT)
             elif "tools" in chunk:
                 content = chunk["tools"]["messages"][0].content
                 if content:
-                    yield format_sse(content, "tools")
+                    yield format_sse(content, EVENT_TYPE_TOOLS)
     except Exception as e:
-        yield format_sse(f"Error: {str(e)}", "error")
+        yield format_sse(f"Error: {str(e)}", EVENT_TYPE_ERROR)
 
-def run_inference(agent_executor, config) -> Iterator[str]:
-    """Run inference and yield SSE responses"""
+def run_inference() -> Iterator[str]:
+    """Initialize agent, run inference and yield SSE responses"""
+    start_time = time.time()
     print("Running agent...", flush=True)
+    
     try:
-        yield format_sse("Agent initialized and starting...", "info")
+        agent_executor, config = initialize_agent()
+        print(f"Agent init time: {time.time() - start_time:.2f} seconds", flush=True)
+        
         for response in run_agent(agent_executor=agent_executor, config=config):
-            print(f"Sending response: {response}", flush=True)
             yield response
     except Exception as e:
         print(f"Error during inference: {str(e)}", flush=True)
-        yield format_sse(f"Error: {str(e)}", "error")
+        yield format_sse(f"Error: {str(e)}", EVENT_TYPE_ERROR)
     finally:
         print("Agent finished running.", flush=True)
-        yield format_sse("Agent finished", "complete")
+        yield format_sse("Agent finished", EVENT_TYPE_COMPLETED)
 
 
 @app.route("/api/chat")
 def chat():
-    print("Initializing agent...", flush=True)
-    start_time = time.time()
-
-    def generate():
-        try:
-            agent_executor, config = initialize_agent()
-            print("Agent initialized successfully!", flush=True)
-            end_time = time.time()
-            elapsed_time = end_time - start_time
-            print(f"Agent init time: {elapsed_time:.2f} seconds", flush=True)
-            
-            yield format_sse(f"Agent initialized in {elapsed_time:.2f} seconds", "init")
-            
-            for response in run_inference(agent_executor, config):
-                yield response
-                
-        except Exception as e:
-            print(f"Error initializing agent: {str(e)}", flush=True)
-            yield format_sse(f"Error: {str(e)}", "error")
-    
     return Response(
-        stream_with_context(generate()),
+        stream_with_context(run_inference()),
         mimetype='text/event-stream',
         headers={
             'Cache-Control': 'no-cache',
