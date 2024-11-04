@@ -1,8 +1,10 @@
-from flask import Flask
+from flask import Flask, Response, stream_with_context
 from dotenv import load_dotenv
 import os
 import sys
 import time
+import json
+from typing import Iterator
 
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
@@ -18,6 +20,13 @@ app = Flask(__name__)
 
 # Environment variable name for wallet data
 WALLET_DATA_ENV_VAR = "CDP_WALLET_DATA"
+
+def format_sse(data: str, event: str = None) -> str:
+    """Format data as SSE"""
+    msg = f"data: {json.dumps(data)}\n\n"
+    if event is not None:
+        msg = f"event: {event}\n{msg}"
+    return msg
 
 def initialize_agent():
     """Initialize the agent with CDP Agentkit."""
@@ -59,41 +68,73 @@ def initialize_agent():
     ), config
 
 # Autonomous Mode
-def run_agent(agent_executor, config):
-    """Run the agent autonomously with specified intervals."""
-    thought = (
-        "Be creative and do something interesting on the blockchain. "
-        "Choose an action or set of actions and execute it that highlights your abilities."
-    )
+def run_agent(agent_executor, config) -> Iterator[str]:
+    """Run the agent and yield formatted SSE messages"""
+    thought = "check your balance and send 10 percent of your eth to john2879.base.eth"
+    
+    try:
+        for chunk in agent_executor.stream(
+            {"messages": [HumanMessage(content=thought)]}, config
+        ):
+            if "agent" in chunk:
+                content = chunk["agent"]["messages"][0].content
+                if content:
+                    yield format_sse(content, "agent")
+            elif "tools" in chunk:
+                content = chunk["tools"]["messages"][0].content
+                if content:
+                    yield format_sse(content, "tools")
+    except Exception as e:
+        yield format_sse(f"Error: {str(e)}", "error")
 
-    for chunk in agent_executor.stream(
-        {"messages": [HumanMessage(content=thought)]}, config
-    ):
-        print("Chunk:", chunk, flush=True)
-        if "agent" in chunk:
-            return chunk["agent"]["messages"][0].content
-        elif "tools" in chunk:
-            return chunk["tools"]["messages"][0].content
+def run_inference(agent_executor, config) -> Iterator[str]:
+    """Run inference and yield SSE responses"""
+    print("Running agent...", flush=True)
+    try:
+        yield format_sse("Agent initialized and starting...", "info")
+        for response in run_agent(agent_executor=agent_executor, config=config):
+            print(f"Sending response: {response}", flush=True)
+            yield response
+    except Exception as e:
+        print(f"Error during inference: {str(e)}", flush=True)
+        yield format_sse(f"Error: {str(e)}", "error")
+    finally:
+        print("Agent finished running.", flush=True)
+        yield format_sse("Agent finished", "complete")
+
 
 @app.route("/api/chat")
 def chat():
     print("Initializing agent...", flush=True)
     start_time = time.time()
 
-    # Re-initialize agent
-    agent_executor, config = initialize_agent()
-    print("Agent initialized successfully!", flush=True)
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(f"Agent init time: {elapsed_time:.2f} seconds", flush=True)
-
-    # Run inference
-    print("Running agent...", flush=True)
-    output = run_agent(agent_executor=agent_executor, config=config)
-    print("Agent finished running.", flush=True)
-    print("Output:", output, flush=True)
-
-    return output
+    def generate():
+        try:
+            agent_executor, config = initialize_agent()
+            print("Agent initialized successfully!", flush=True)
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            print(f"Agent init time: {elapsed_time:.2f} seconds", flush=True)
+            
+            yield format_sse(f"Agent initialized in {elapsed_time:.2f} seconds", "init")
+            
+            for response in run_inference(agent_executor, config):
+                yield response
+                
+        except Exception as e:
+            print(f"Error initializing agent: {str(e)}", flush=True)
+            yield format_sse(f"Error: {str(e)}", "error")
+    
+    return Response(
+        stream_with_context(generate()),
+        mimetype='text/event-stream',
+        headers={
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'text/event-stream',
+            'Connection': 'keep-alive',
+            'X-Accel-Buffering': 'no'
+        }
+    )
 
 if __name__ == "__main__":
     app.run(port="5328")
