@@ -430,39 +430,35 @@ name = "cdp-agentkit-core"
 version = "0.0.1"
 description = "CDP Agentkit core primitives"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = false
+python-versions = "<4.0,>=3.10"
+files = [
+    {file = "cdp_agentkit_core-0.0.1-py3-none-any.whl", hash = "sha256:476716ad16df056bebf8d72c44270c80845804902b07ad66b8b9a38add86e561"},
+    {file = "cdp_agentkit_core-0.0.1.tar.gz", hash = "sha256:abdc8d9a4c31259048fa718b650f294d0b2ad0065667b6cde0ae6e77571ac057"},
+]
 
 [package.dependencies]
-cdp-sdk = "^0.10.1"
-pydantic = "^2.0"
+cdp-sdk = ">=0.10.1,<0.11.0"
+pydantic = ">=2.0,<3.0"
 web3 = "7.2.0"
-
-[package.source]
-type = "directory"
-url = "../cdp-agentkit-core"
 
 [[package]]
 name = "cdp-langchain"
 version = "0.0.1"
 description = "CDP Agentkit Langchain Extension"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = false
+python-versions = "<4.0,>=3.10"
+files = [
+    {file = "cdp_langchain-0.0.1-py3-none-any.whl", hash = "sha256:05f488dfa0f93ddb47d39e5ac1196cc0158908a257e953f96e836a6a3b8d8a2a"},
+    {file = "cdp_langchain-0.0.1.tar.gz", hash = "sha256:d384de4bfbcdb284b448d209f061c61822edc99364546a6e33ed1632195f01ca"},
+]
 
 [package.dependencies]
-cdp-agentkit-core = {path = "../cdp-agentkit-core", develop = true}
-cdp-sdk = "^0.10.1"
-langchain = "^0.3.4"
-langchain-openai = "^0.2.4"
-langgraph = "^0.2.39"
-pydantic = "^2.0"
-
-[package.source]
-type = "directory"
-url = "../cdp-langchain"
+cdp-agentkit-core = ">=0.0.1,<0.0.2"
+cdp-sdk = ">=0.10.1,<0.11.0"
+langchain = ">=0.3.4,<0.4.0"
+langchain-openai = ">=0.2.4,<0.3.0"
+langgraph = ">=0.2.39,<0.3.0"
+pydantic = ">=2.0,<3.0"
 
 [[package]]
 name = "cdp-sdk"
@@ -3279,4 +3275,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "654ec76bdaf17a29deb309b8f7312c38e783c8940714b153d5a0fb817f24bb7f"
+content-hash = "1a3c851c6565e5fbc16268371f80bba9d0b967c973416efe5c7e2bd6d2779cf0"
