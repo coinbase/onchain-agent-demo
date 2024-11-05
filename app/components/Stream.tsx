@@ -15,13 +15,13 @@ function StreamEntryItem({ entry, currentLanguage }: StreamEntryItemProps) {
     let baseClass = 'flex items-center space-x-2';
 
     if (entry?.type && ['tools', 'user'].includes(entry?.type)) {
-      baseClass += ' text-[#5788FA]'
+      baseClass += ' text-[#5788FA]';
     } else {
-      baseClass += ' text-gray-300'
+      baseClass += ' text-gray-300';
     }
 
-    if (currentLanguage === "th" ) {
-      baseClass += ` ${notoSansThai.className}`
+    if (currentLanguage === 'th') {
+      baseClass += ` ${notoSansThai.className}`;
     }
 
     return baseClass;
@@ -29,18 +29,14 @@ function StreamEntryItem({ entry, currentLanguage }: StreamEntryItemProps) {
 
   const icon = useMemo(() => {
     return getActionIcon(entry.type);
-  }, [entry])
+  }, [entry]);
 
   if (entry.type) {
     return (
       <div className="mb-2">
         <TimeDisplay timestamp={entry.timestamp} />
-        <div
-          className={className}
-        >
-          {icon && <div className="h-4 w-4">
-            {icon}
-          </div>}
+        <div className={className}>
+          {icon && <div className="h-4 w-4">{icon}</div>}
           <span>{entry.content}</span>
         </div>
       </div>

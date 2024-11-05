@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import useChat from '../hooks/useChat';
-import type {
-  AgentMessage,
-  Language,
-  StreamEntry,
-} from '../types';
+import type { AgentMessage, Language, StreamEntry } from '../types';
 import AgentProfile from './AgentProfile';
 import AgentStats from './AgentStats';
 import ChatInput from './ChatInput';
@@ -26,14 +22,16 @@ export default function Agent() {
   // TODO: revisit this logic
   const handleSuccess = useCallback((messages: AgentMessage[]) => {
     // const message = messages.find((res) => res.event === "agent");
-    const filteredMessages = messages.filter(msg => msg.event !== 'completed');
-    const streams = filteredMessages.map(msg => {
+    const filteredMessages = messages.filter(
+      (msg) => msg.event !== 'completed',
+    );
+    const streams = filteredMessages.map((msg) => {
       return {
         timestamp: new Date(),
-        content: msg?.data || "",
-        type: msg?.event
-      }
-    })
+        content: msg?.data || '',
+        type: msg?.event,
+      };
+    });
     // const streamEntry = {
     //   timestamp: new Date(),
     //   content: message?.data || "",

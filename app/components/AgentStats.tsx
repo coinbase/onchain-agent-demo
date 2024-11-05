@@ -29,31 +29,27 @@ export default function AgentStats({ currentLanguage }: AgentStats) {
           <li
             className={currentLanguage === 'th' ? notoSansThai.className : ''}
           >
-            {translations[currentLanguage].profile.stats.earned}: $
-            N/A
+            {translations[currentLanguage].profile.stats.earned}: $ N/A
           </li>
           <li
             className={currentLanguage === 'th' ? notoSansThai.className : ''}
           >
-            {translations[currentLanguage].profile.stats.spent}: $
-            N/A
+            {translations[currentLanguage].profile.stats.spent}: $ N/A
           </li>
           <li
             className={currentLanguage === 'th' ? notoSansThai.className : ''}
           >
-            {translations[currentLanguage].profile.stats.nfts}:{" "}
-            N/A
+            {translations[currentLanguage].profile.stats.nfts}: N/A
           </li>
           <li
             className={currentLanguage === 'th' ? notoSansThai.className : ''}
           >
-            {translations[currentLanguage].profile.stats.tokens}:{" "}
-            N/A
+            {translations[currentLanguage].profile.stats.tokens}: N/A
           </li>
           <li
             className={currentLanguage === 'th' ? notoSansThai.className : ''}
           >
-            {translations[currentLanguage].profile.stats.transactions}:{" "}
+            {translations[currentLanguage].profile.stats.transactions}:{' '}
             {transactionCount}
           </li>
         </ul>

@@ -16,12 +16,12 @@ export const getActionIcon = (type: StreamEntry['type']) => {
       return <WalletSvg />;
     case 'swap_token':
       return <SwapSvg />;
-    case "tools":
+    case 'tools':
       return <TokenSvg />;
     case 'transfer_nft':
       return <NftSvg />;
-    case "user":
-      return <ArrowSvg className="-rotate-45 w-3 w-3" />
+    case 'user':
+      return <ArrowSvg className="-rotate-45 w-3 w-3" />;
     default:
       return null;
   }
