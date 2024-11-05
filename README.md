@@ -1,7 +1,7 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-onchain`]().
 
 
-### Prerequisites
+## Prerequisites
 
 - [Rust](https://www.rust-lang.org/tools/install)
 - [Poetry](https://python-poetry.org/docs/#installation)
@@ -16,7 +16,7 @@ NETWORK_ID=base-sepolia
 CDP_WALLET_DATA={}
 ```
 
-### Running locally
+## Running locally
 
 - Install dependencies
 ```bash
@@ -28,7 +28,7 @@ bun i
 bun dev
 ```
 
-### Example commands
+## Example commands
 
 ```bash
 curl -X POST http://localhost:3000/api/chat \
