@@ -1,7 +1,6 @@
 from flask import Flask, request, Response, stream_with_context, jsonify
 from dotenv import load_dotenv
 import os
-import sys
 import time
 import json
 import constants

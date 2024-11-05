@@ -1,8 +1,10 @@
+from typing import Final
+
 # Event types
-EVENT_TYPE_AGENT = "agent"
-EVENT_TYPE_COMPLETED = "completed"
-EVENT_TYPE_TOOLS = "tools"
-EVENT_TYPE_ERROR = "error"
+EVENT_TYPE_AGENT: Final[str] = "agent"
+EVENT_TYPE_COMPLETED: Final[str] = "completed"
+EVENT_TYPE_TOOLS: Final[str] = "tools"
+EVENT_TYPE_ERROR: Final[str]= "error"
 
 # Environment variables
-WALLET_DATA_ENV_VAR = "CDP_WALLET_DATA"
+WALLET_DATA_ENV_VAR: Final[str] = "CDP_WALLET_DATA"
