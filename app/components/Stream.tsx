@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { notoSansThai } from '../constants';
 import { translations } from '../translations';
 import type { Language, StreamEntry } from '../types';
@@ -11,16 +11,36 @@ type StreamEntryItemProps = {
 };
 
 function StreamEntryItem({ entry, currentLanguage }: StreamEntryItemProps) {
+  const className = useMemo(() => {
+    let baseClass = 'flex items-center space-x-2';
+
+    if (entry?.type && ['tools', 'user'].includes(entry?.type)) {
+      baseClass += ' text-[#5788FA]'
+    } else {
+      baseClass += ' text-gray-300'
+    }
+
+    if (currentLanguage === "th" ) {
+      baseClass += ` ${notoSansThai.className}`
+    }
+
+    return baseClass;
+  }, [currentLanguage, entry?.type]);
+
+  const icon = useMemo(() => {
+    return getActionIcon(entry.type);
+  }, [entry])
+
   if (entry.type) {
     return (
       <div className="mb-2">
         <TimeDisplay timestamp={entry.timestamp} />
         <div
-          className={`flex items-center space-x-2 text-[#5788FA] ${
-            currentLanguage === 'th' ? notoSansThai.className : ''
-          }`}
+          className={className}
         >
-          {getActionIcon(entry.type)}
+          {icon && <div className="h-4 w-4">
+            {icon}
+          </div>}
           <span>{entry.content}</span>
         </div>
       </div>

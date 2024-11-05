@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 
 import useChat from '../hooks/useChat';
 import type {
-  ActionEntry,
   AgentMessage,
   Language,
   StreamEntry,
@@ -24,14 +23,23 @@ export default function Agent() {
   const [isLiveDotVisible, setIsLiveDotVisible] = useState(true);
   const [isChatMode, setIsChatMode] = useState(false);
 
+  // TODO: revisit this logic
   const handleSuccess = useCallback((messages: AgentMessage[]) => {
-    const message = messages.find((res) => res.event === 'agent');
-    const streamEntry = {
-      timestamp: new Date(),
-      content: message?.data || '',
-    };
+    // const message = messages.find((res) => res.event === "agent");
+    const filteredMessages = messages.filter(msg => msg.event !== 'completed');
+    const streams = filteredMessages.map(msg => {
+      return {
+        timestamp: new Date(),
+        content: msg?.data || "",
+        type: msg?.event
+      }
+    })
+    // const streamEntry = {
+    //   timestamp: new Date(),
+    //   content: message?.data || "",
+    // };
     setIsThinking(false);
-    setStreamEntries((prev) => [...prev, streamEntry]);
+    setStreamEntries((prev) => [...prev, ...streams]);
     setTimeout(() => {
       setIsThinking(true);
     }, 800);
@@ -81,7 +89,7 @@ export default function Agent() {
       setIsChatMode(true);
       setUserInput('');
 
-      const userMessage: ActionEntry = {
+      const userMessage: StreamEntry = {
         timestamp: new Date(),
         type: 'user',
         content: userInput.trim(),

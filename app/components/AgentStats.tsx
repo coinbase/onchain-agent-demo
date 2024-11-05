@@ -1,4 +1,4 @@
-import { useBalance } from 'wagmi';
+import { useBalance, useTransactionCount } from 'wagmi';
 import { AGENT_WALLET_ADDRESS, notoSansThai } from '../constants';
 import { translations } from '../translations';
 import type { Language } from '../types';
@@ -7,20 +7,17 @@ type AgentStats = {
   currentLanguage: Language;
 };
 
-const dummyStats = {
-  earned: 10000,
-  spent: 4000,
-  nftsOwned: 3,
-  tokensOwned: 0,
-  transactions: 0,
-  thoughts: 900,
-};
-
 export default function AgentStats({ currentLanguage }: AgentStats) {
   const { data } = useBalance({
     address: AGENT_WALLET_ADDRESS,
     query: { refetchInterval: 5000 },
   });
+
+  const { data: transactionCount } = useTransactionCount({
+    address: AGENT_WALLET_ADDRESS,
+    query: { refetchInterval: 5000 },
+  });
+
   return (
     <div className="mr-2 mb-4 rounded-sm border border-[#5788FA]/50 bg-black">
       <div className="flex flex-col items-start p-4">
@@ -33,31 +30,31 @@ export default function AgentStats({ currentLanguage }: AgentStats) {
             className={currentLanguage === 'th' ? notoSansThai.className : ''}
           >
             {translations[currentLanguage].profile.stats.earned}: $
-            {dummyStats.earned.toFixed(2)}
+            N/A
           </li>
           <li
             className={currentLanguage === 'th' ? notoSansThai.className : ''}
           >
             {translations[currentLanguage].profile.stats.spent}: $
-            {dummyStats.spent.toFixed(2)}
+            N/A
           </li>
           <li
             className={currentLanguage === 'th' ? notoSansThai.className : ''}
           >
-            {translations[currentLanguage].profile.stats.nfts}:{' '}
-            {dummyStats.nftsOwned}
+            {translations[currentLanguage].profile.stats.nfts}:{" "}
+            N/A
           </li>
           <li
             className={currentLanguage === 'th' ? notoSansThai.className : ''}
           >
-            {translations[currentLanguage].profile.stats.tokens}:{' '}
-            {dummyStats.tokensOwned}
+            {translations[currentLanguage].profile.stats.tokens}:{" "}
+            N/A
           </li>
           <li
             className={currentLanguage === 'th' ? notoSansThai.className : ''}
           >
-            {translations[currentLanguage].profile.stats.transactions}:{' '}
-            {dummyStats.transactions}
+            {translations[currentLanguage].profile.stats.transactions}:{" "}
+            {transactionCount}
           </li>
         </ul>
       </div>

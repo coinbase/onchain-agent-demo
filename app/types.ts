@@ -1,12 +1,6 @@
 export type Language = 'en' | 'th' | 'zh';
 
-export type ThoughtEntry = {
-  timestamp: Date;
-  type?: undefined;
-  content: string;
-};
-
-export type ActionEntry = {
+export type StreamEntry = {
   timestamp: Date;
   type:
     | 'create_wallet'
@@ -15,11 +9,12 @@ export type ActionEntry = {
     | 'swap_token'
     | 'transfer_token'
     | 'transfer_nft'
-    | 'user';
+    | 'user'
+    | 'tools'
+    | 'agent'
+    | 'completed';
   content: string;
 };
-
-export type StreamEntry = ThoughtEntry | ActionEntry;
 
 export type AnimatedData = {
   earned: number;
@@ -32,5 +27,5 @@ export type AnimatedData = {
 
 export type AgentMessage = {
   data?: string;
-  event?: string;
+  event: "agent" | "tools" | "completed";
 };

@@ -1,4 +1,8 @@
-export default function ArrowSvg() {
+type ArrowSvgProps = {
+  className: string;
+};
+
+export default function ArrowSvg({ className }: ArrowSvgProps) {
   return (
     <svg
       width="14"
@@ -6,7 +10,7 @@ export default function ArrowSvg() {
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="pb-1"
+      className={className}
     >
       <title>Arrow SVG</title>
       <path
