@@ -4,6 +4,7 @@ import os
 import sys
 import time
 import json
+import constants
 from typing import Iterator
 
 from langchain_core.messages import HumanMessage
@@ -22,15 +23,6 @@ class InputValidationError(Exception):
     """Custom exception for input validation errors"""
     pass
 
-# Event types
-EVENT_TYPE_AGENT = "agent"
-EVENT_TYPE_COMPLETED = "completed"
-EVENT_TYPE_TOOLS = "tools"
-EVENT_TYPE_ERROR = "error"
-
-# Environment variable name for wallet data
-WALLET_DATA_ENV_VAR = "CDP_WALLET_DATA"
-
 def format_sse(data: str, event: str = None) -> str:
     """Format data as SSE"""
     response = {
@@ -45,7 +37,7 @@ def initialize_agent():
     llm = ChatOpenAI(model="gpt-4o-mini")
 
     # Read wallet data from environment variable
-    wallet_data = os.getenv(WALLET_DATA_ENV_VAR)
+    wallet_data = os.getenv(constants.WALLET_DATA_ENV_VAR)
 
     print("Initialized CDP Agentkit with wallet data:", wallet_data)
 
@@ -88,13 +80,13 @@ def run_agent(input, agent_executor, config) -> Iterator[str]:
             if "agent" in chunk:
                 content = chunk["agent"]["messages"][0].content
                 if content:
-                    yield format_sse(content, EVENT_TYPE_AGENT)
+                    yield format_sse(content, constants.EVENT_TYPE_AGENT)
             elif "tools" in chunk:
                 content = chunk["tools"]["messages"][0].content
                 if content:
-                    yield format_sse(content, EVENT_TYPE_TOOLS)
+                    yield format_sse(content, constants.EVENT_TYPE_TOOLS)
     except Exception as e:
-        yield format_sse(f"Error: {str(e)}", EVENT_TYPE_ERROR)
+        yield format_sse(f"Error: {str(e)}", constants.EVENT_TYPE_ERROR)
 
 def run_inference(input: str = "Be creative and do something interesting on the blockchain. Choose an action or set of actions and execute it in a way that highlights your abilities.") -> Iterator[str]:
     """Initialize agent, run inference and yield SSE responses"""
@@ -109,10 +101,10 @@ def run_inference(input: str = "Be creative and do something interesting on the 
             yield response
     except Exception as e:
         print(f"Error during inference: {str(e)}", flush=True)
-        yield format_sse(f"Error: {str(e)}", EVENT_TYPE_ERROR)
+        yield format_sse(f"Error: {str(e)}", constants.EVENT_TYPE_ERROR)
     finally:
         print("Agent finished running.", flush=True)
-        yield format_sse("Agent finished", EVENT_TYPE_COMPLETED)
+        yield format_sse("Agent finished", constants.EVENT_TYPE_COMPLETED)
 
 
 @app.route("/api/chat", methods=['POST'])
