@@ -1,0 +1,33 @@
+name: Agent Frontend Template Format
+
+on:
+  push:
+    branches: ["master"]
+    paths:
+      - 'agent-frontend/**'
+  pull_request:
+    branches: ["master"]
+    paths:
+      - 'agent-frontend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        working-directory: agent-frontend
+        run: bun install
+
+      - name: Run Format Check
+        working-directory: agent-frontend
+        run: bun run ci:format
