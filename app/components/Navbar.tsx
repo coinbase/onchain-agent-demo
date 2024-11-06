@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { notoSansThai } from '../constants';
 import { translations } from '../translations';
 import type { Language } from '../types';
@@ -6,7 +6,6 @@ import LanguageSelector from './LanguageSelector';
 
 type NavbarProps = {
   setIsMobileMenuOpen: (isOpen: boolean) => void;
-  isLiveDotVisible: boolean;
   isMobileMenuOpen: boolean;
   setCurrentLanguage: (language: Language) => void;
   currentLanguage: Language;
@@ -15,10 +14,20 @@ type NavbarProps = {
 export default function Navbar({
   setIsMobileMenuOpen,
   isMobileMenuOpen,
-  isLiveDotVisible,
   setCurrentLanguage,
   currentLanguage,
 }: NavbarProps) {
+  const [isLiveDotVisible, setIsLiveDotVisible] = useState(true);
+
+  // enables glowing live on sepolia dot
+  useEffect(() => {
+    const dotInterval = setInterval(() => {
+      setIsLiveDotVisible((prev) => !prev);
+    }, 1000);
+
+    return () => clearInterval(dotInterval);
+  }, []);
+
   const handleClick = useCallback(() => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   }, [isMobileMenuOpen, setIsMobileMenuOpen]);
