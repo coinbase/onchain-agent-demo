@@ -80,8 +80,8 @@ export default function ChatInput({
             <SendSvg />
           </button>
         </div>
-        <div className='flex w-full items-center justify-between gap-4 py-2'>
-          <div className='flex grow flex-col gap-2 overflow-x-auto text-xs lg:flex-row lg:text-sm'>
+        <div className="flex w-full items-center justify-between gap-4 py-2">
+          <div className="flex grow flex-col gap-2 overflow-x-auto text-xs lg:flex-row lg:text-sm">
             <PremadeChatInput
               setUserInput={setUserInput}
               currentLanguage={currentLanguage}
