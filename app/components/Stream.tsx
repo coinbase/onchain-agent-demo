@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { DEFAULT_PROMPT, notoSansThai } from '../constants';
+import useChat from '../hooks/useChat';
 import { translations } from '../translations';
 import type { AgentMessage, Language, StreamEntry } from '../types';
-import useChat from '../hooks/useChat';
 import ChatInput from './ChatInput';
 import StreamItem from './StreamItem';
 
