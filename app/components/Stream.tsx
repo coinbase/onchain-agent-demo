@@ -57,11 +57,13 @@ export default function Stream({ currentLanguage }: StreamProps) {
     };
   }, [isLoading, postChat, isChatMode]);
 
+  // biome-ignore lint/suspicious/no-extra-react-hook-deps: Dependency is required
   useEffect(() => {
     // reset entries on language change
     setStreamEntries([]);
   }, [currentLanguage]);
 
+  // biome-ignore lint/suspicious/no-extra-react-hook-deps: Dependency is required
   useEffect(() => {
     // scrolls to the bottom of the chat when messages change
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
