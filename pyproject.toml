@@ -5,7 +5,7 @@ description = ""
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.13"
+python = "^3.12"
 flask = "^3.0.3"
 langchain = "^0.3.6"
 langchain-openai = "^0.2.5"
