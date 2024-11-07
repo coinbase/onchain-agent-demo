@@ -1,94 +1,97 @@
-aiohappyeyeballs==2.4.0
-aiohttp==3.10.5
-aiosignal==1.3.1
-annotated-types==0.7.0
-anyio==4.6.2.post1
--e git+https://github.com/coinbase/onchain-agent-demo.git@dea681ad4190e8e5d280364fd917840cd3d4459c#egg=api
-asn1crypto==1.5.1
-async-timeout==4.0.3
-attrs==24.2.0
-bip-utils==2.9.3
-bitarray==2.9.2
-blinker==1.8.2
-cbor2==5.6.4
-cdp-agentkit-core==0.0.1
-cdp-langchain==0.0.1
-cdp-sdk==0.10.1
-certifi==2024.8.30
-cffi==1.17.1
-charset-normalizer==3.3.2
-ckzg==2.0.1
-click==8.1.7
-coincurve==20.0.0
-crcmod==1.7
-cryptography==43.0.1
-cytoolz==0.12.3
-distro==1.9.0
-ecdsa==0.19.0
-ed25519-blake2b==1.4.1
-eth-account==0.13.3
-eth-hash==0.7.0
-eth-keyfile==0.8.1
-eth-keys==0.5.1
-eth-rlp==2.1.0
-eth-typing==5.0.0
-eth-utils==5.0.0
-eth_abi==5.1.0
-Flask==3.0.3
-frozenlist==1.4.1
-h11==0.14.0
-hexbytes==1.2.1
-httpcore==1.0.6
-httpx==0.27.2
-httpx-sse==0.4.0
-idna==3.10
-itsdangerous==2.2.0
-Jinja2==3.1.4
-jiter==0.7.0
-jsonpatch==1.33
-jsonpointer==3.0.0
-langchain==0.3.7
-langchain-core==0.3.15
-langchain-openai==0.2.5
-langchain-text-splitters==0.3.2
-langgraph==0.2.44
-langgraph-checkpoint==2.0.2
-langgraph-sdk==0.1.35
-langsmith==0.1.139
-MarkupSafe==3.0.2
-msgpack==1.1.0
-multidict==6.1.0
-numpy==1.26.4
-openai==1.53.1
-orjson==3.10.11
-packaging==24.1
-parsimonious==0.10.0
-py-sr25519-bindings==0.2.0
-pycparser==2.22
-pycryptodome==3.20.0
-pydantic==2.9.2
-pydantic_core==2.23.4
-PyJWT==2.9.0
-PyNaCl==1.5.0
-python-dateutil==2.9.0.post0
-python-dotenv==1.0.1
-pyunormalize==16.0.0
-PyYAML==6.0.2
-regex==2024.9.11
-requests==2.32.3
-requests-toolbelt==1.0.0
-rlp==4.0.1
-six==1.16.0
-sniffio==1.3.1
-SQLAlchemy==2.0.36
-tenacity==9.0.0
-tiktoken==0.8.0
-toolz==0.12.1
-tqdm==4.66.6
-types-requests==2.32.0.20240914
-typing_extensions==4.12.2
-urllib3==2.2.3
-web3==7.2.0
-websockets==13.0.1
-Werkzeug==3.1.2
-yarl==1.11.1
+aiohappyeyeballs==2.4.0 ; python_version >= "3.12" and python_version < "4.0"
+aiohttp==3.10.5 ; python_version >= "3.12" and python_version < "4.0"
+aiosignal==1.3.1 ; python_version >= "3.12" and python_version < "4.0"
+annotated-types==0.7.0 ; python_version >= "3.12" and python_version < "4.0"
+anyio==4.6.2.post1 ; python_version >= "3.12" and python_version < "4.0"
+asn1crypto==1.5.1 ; python_version >= "3.12" and python_version < "4.0"
+async-timeout==4.0.3 ; python_version >= "3.12" and python_version < "4.0"
+attrs==24.2.0 ; python_version >= "3.12" and python_version < "4.0"
+bip-utils==2.9.3 ; python_version >= "3.12" and python_version < "4.0"
+bitarray==2.9.2 ; python_version >= "3.12" and python_version < "4.0"
+blinker==1.8.2 ; python_version >= "3.12" and python_version < "4.0"
+cbor2==5.6.4 ; python_version >= "3.12" and python_version < "4.0"
+cdp-agentkit-core==0.0.1 ; python_version >= "3.12" and python_version < "4.0"
+cdp-langchain==0.0.1 ; python_version >= "3.12" and python_version < "4.0"
+cdp-sdk==0.10.2 ; python_version >= "3.12" and python_version < "4.0"
+certifi==2024.8.30 ; python_version >= "3.12" and python_version < "4.0"
+cffi==1.17.1 ; python_version >= "3.12" and python_version < "4.0"
+charset-normalizer==3.3.2 ; python_version >= "3.12" and python_version < "4.0"
+ckzg==2.0.1 ; python_version >= "3.12" and python_version < "4.0"
+click==8.1.7 ; python_version >= "3.12" and python_version < "4.0"
+coincurve==20.0.0 ; python_version >= "3.12" and python_version < "4.0"
+colorama==0.4.6 ; python_version >= "3.12" and python_version < "4.0" and platform_system == "Windows"
+crcmod==1.7 ; python_version >= "3.12" and python_version < "4.0"
+cryptography==43.0.1 ; python_version >= "3.12" and python_version < "4.0"
+cytoolz==0.12.3 ; python_version >= "3.12" and python_version < "4.0"
+distro==1.9.0 ; python_version >= "3.12" and python_version < "4.0"
+ecdsa==0.19.0 ; python_version >= "3.12" and python_version < "4.0"
+ed25519-blake2b==1.4.1 ; python_version >= "3.12" and python_version < "4.0"
+eth-abi==5.1.0 ; python_version >= "3.12" and python_version < "4"
+eth-account==0.13.3 ; python_version >= "3.12" and python_version < "4"
+eth-hash==0.7.0 ; python_version >= "3.12" and python_version < "4"
+eth-hash[pycryptodome]==0.7.0 ; python_version >= "3.12" and python_version < "4"
+eth-keyfile==0.8.1 ; python_version >= "3.12" and python_version < "4"
+eth-keys==0.5.1 ; python_version >= "3.12" and python_version < "4"
+eth-rlp==2.1.0 ; python_version >= "3.12" and python_version < "4"
+eth-typing==5.0.0 ; python_version >= "3.12" and python_version < "4"
+eth-utils==5.0.0 ; python_version >= "3.12" and python_version < "4"
+flask==3.0.3 ; python_version >= "3.12" and python_version < "4.0"
+frozenlist==1.4.1 ; python_version >= "3.12" and python_version < "4.0"
+greenlet==3.1.1 ; python_version < "3.13" and (platform_machine == "aarch64" or platform_machine == "ppc64le" or platform_machine == "x86_64" or platform_machine == "amd64" or platform_machine == "AMD64" or platform_machine == "win32" or platform_machine == "WIN32") and python_version >= "3.12"
+h11==0.14.0 ; python_version >= "3.12" and python_version < "4.0"
+hexbytes==1.2.1 ; python_version >= "3.12" and python_version < "4"
+httpcore==1.0.6 ; python_version >= "3.12" and python_version < "4.0"
+httpx-sse==0.4.0 ; python_version >= "3.12" and python_version < "4.0"
+httpx==0.27.2 ; python_version >= "3.12" and python_version < "4.0"
+idna==3.10 ; python_version >= "3.12" and python_version < "4.0"
+itsdangerous==2.2.0 ; python_version >= "3.12" and python_version < "4.0"
+jinja2==3.1.4 ; python_version >= "3.12" and python_version < "4.0"
+jiter==0.7.0 ; python_version >= "3.12" and python_version < "4.0"
+jsonpatch==1.33 ; python_version >= "3.12" and python_version < "4.0"
+jsonpointer==3.0.0 ; python_version >= "3.12" and python_version < "4.0"
+langchain-core==0.3.15 ; python_version >= "3.12" and python_version < "4.0"
+langchain-openai==0.2.6 ; python_version >= "3.12" and python_version < "4.0"
+langchain-text-splitters==0.3.2 ; python_version >= "3.12" and python_version < "4.0"
+langchain==0.3.7 ; python_version >= "3.12" and python_version < "4.0"
+langgraph-checkpoint==2.0.2 ; python_version >= "3.12" and python_version < "4.0"
+langgraph-sdk==0.1.35 ; python_version >= "3.12" and python_version < "4.0"
+langgraph==0.2.45 ; python_version >= "3.12" and python_version < "4.0"
+langsmith==0.1.140 ; python_version >= "3.12" and python_version < "4.0"
+markupsafe==3.0.2 ; python_version >= "3.12" and python_version < "4.0"
+msgpack==1.1.0 ; python_version >= "3.12" and python_version < "4.0"
+multidict==6.1.0 ; python_version >= "3.12" and python_version < "4.0"
+numpy==1.26.4 ; python_version >= "3.12" and python_version < "4.0"
+openai==1.54.3 ; python_version >= "3.12" and python_version < "4.0"
+orjson==3.10.11 ; python_version >= "3.12" and python_version < "4.0"
+packaging==24.1 ; python_version >= "3.12" and python_version < "4.0"
+parsimonious==0.10.0 ; python_version >= "3.12" and python_version < "4.0"
+py-sr25519-bindings==0.2.0 ; python_version >= "3.12" and python_version < "4.0"
+pycparser==2.22 ; python_version >= "3.12" and python_version < "4.0"
+pycryptodome==3.20.0 ; python_version >= "3.12" and python_version < "4.0"
+pydantic-core==2.23.4 ; python_version >= "3.12" and python_version < "4.0"
+pydantic==2.9.2 ; python_version >= "3.12" and python_version < "4.0"
+pyjwt==2.9.0 ; python_version >= "3.12" and python_version < "4.0"
+pynacl==1.5.0 ; python_version >= "3.12" and python_version < "4.0"
+python-dateutil==2.9.0.post0 ; python_version >= "3.12" and python_version < "4.0"
+python-dotenv==1.0.1 ; python_version >= "3.12" and python_version < "4.0"
+pyunormalize==16.0.0 ; python_version >= "3.12" and python_version < "4.0"
+pywin32==308 ; python_version >= "3.12" and python_version < "4" and platform_system == "Windows"
+pyyaml==6.0.2 ; python_version >= "3.12" and python_version < "4.0"
+regex==2024.9.11 ; python_version >= "3.12" and python_version < "4.0"
+requests-toolbelt==1.0.0 ; python_version >= "3.12" and python_version < "4.0"
+requests==2.32.3 ; python_version >= "3.12" and python_version < "4.0"
+rlp==4.0.1 ; python_version >= "3.12" and python_version < "4"
+six==1.16.0 ; python_version >= "3.12" and python_version < "4.0"
+sniffio==1.3.1 ; python_version >= "3.12" and python_version < "4.0"
+sqlalchemy==2.0.36 ; python_version >= "3.12" and python_version < "4.0"
+tenacity==9.0.0 ; python_version >= "3.12" and python_version < "4.0"
+tiktoken==0.8.0 ; python_version >= "3.12" and python_version < "4.0"
+toolz==0.12.1 ; python_version >= "3.12" and python_version < "4.0"
+tqdm==4.67.0 ; python_version >= "3.12" and python_version < "4.0"
+types-requests==2.32.0.20240914 ; python_version >= "3.12" and python_version < "4.0"
+typing-extensions==4.12.2 ; python_version >= "3.12" and python_version < "4.0"
+urllib3==2.2.3 ; python_version >= "3.12" and python_version < "4.0"
+web3==7.2.0 ; python_version >= "3.12" and python_version < "4"
+websockets==13.0.1 ; python_version >= "3.12" and python_version < "4.0"
+werkzeug==3.1.2 ; python_version >= "3.12" and python_version < "4.0"
+yarl==1.11.1 ; python_version >= "3.12" and python_version < "4.0"
