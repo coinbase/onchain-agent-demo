@@ -3,6 +3,7 @@ name = "api"
 version = "0.1.0"
 description = ""
 readme = "README.md"
+authors = ["Your Name <your.email@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.12"
