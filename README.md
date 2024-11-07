@@ -1,5 +1,8 @@
 # Onchain Agent Demo
 
+<img width="1512" alt="Screenshot 2024-11-07 at 9 26 56 AM" src="https://github.com/user-attachments/assets/f67a3472-dad1-46ad-869d-22a9cb97ceaa">
+
+
 A web app that enables onchain interactions through a conversational UI using AgentKit, a collaboration between [CDP SDK](https://docs.cdp.coinbase.com/) and [OnchainKit](https://onchainkit.xyz).
 
 ## Overview
