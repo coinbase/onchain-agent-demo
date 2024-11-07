@@ -6,6 +6,7 @@ import Chat from './Chat';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import Stream from './Stream';
+import AgentAssets from './AgentAssets';
 
 export default function Agent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -36,6 +37,7 @@ export default function Agent() {
         >
           <AgentProfile currentLanguage={currentLanguage} />
           <AgentBalance />
+          <AgentAssets />
         </div>
 
         <div className="flex w-full lg:w-2/3">

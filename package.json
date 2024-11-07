@@ -16,7 +16,7 @@
     "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "latest",
+    "@coinbase/onchainkit": "0.35.4",
     "concurrently": "^8.0.1",
     "next": "14.2.15",
     "react": "^18",
