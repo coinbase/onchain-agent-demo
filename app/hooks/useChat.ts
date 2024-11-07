@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import type { AgentMessage } from '../types';
 import { API_URL } from '../config';
+import type { AgentMessage } from '../types';
 
 type UseChatResponse = {
   messages?: AgentMessage[];
