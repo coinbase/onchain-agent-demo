@@ -7,6 +7,7 @@ import {
 } from '../constants';
 import useChat from '../hooks/useChat';
 import { translations } from '../translations';
+import { markdownToPlainText } from '../utils';
 import type { AgentMessage, Language, StreamEntry } from '../types';
 import StreamItem from './StreamItem';
 
@@ -20,25 +21,15 @@ export default function Stream({ currentLanguage }: StreamProps) {
   const [loadingDots, setLoadingDots] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // TODO: revisit this logic
   const handleSuccess = useCallback((messages: AgentMessage[]) => {
-    // const message = messages.find((res) => res.event === "agent");
-    const filteredMessages = messages.filter(
-      (msg) => msg.event !== 'completed',
-    );
-    const streams = filteredMessages.map((msg) => {
-      return {
-        timestamp: new Date(),
-        content: msg?.data || '',
-        type: msg?.event,
-      };
-    });
-    // const streamEntry = {
-    //   timestamp: new Date(),
-    //   content: message?.data || "",
-    // };
+    const message = messages.find((res) => res.event === 'agent');
+    const streamEntry: StreamEntry = {
+      timestamp: new Date(),
+      content: markdownToPlainText(message?.data || ''),
+      type: 'agent',
+    };
     setIsThinking(false);
-    setStreamEntries((prev) => [...prev, ...streams]);
+    setStreamEntries((prev) => [...prev, streamEntry]);
     setTimeout(() => {
       setIsThinking(true);
     }, 800);

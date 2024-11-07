@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { notoSansThai } from '../constants';
 import useChat from '../hooks/useChat';
 import type { AgentMessage, Language, StreamEntry } from '../types';
+import { markdownToPlainText } from '../utils';
 import ChatInput from './ChatInput';
 import StreamItem from './StreamItem';
 
@@ -18,24 +19,15 @@ export default function Chat({ className, currentLanguage }: ChatProps) {
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // TODO: revisit this logic
   const handleSuccess = useCallback((messages: AgentMessage[]) => {
-    // const message = messages.find((res) => res.event === "agent");
-    const filteredMessages = messages.filter(
-      (msg) => msg.event !== 'completed',
-    );
-    const streams = filteredMessages.map((msg) => {
-      return {
-        timestamp: new Date(),
-        content: msg?.data || '',
-        type: msg?.event,
-      };
-    });
-    // const streamEntry = {
-    //   timestamp: new Date(),
-    //   content: message?.data || "",
-    // };
-    setStreamEntries((prev) => [...prev, ...streams]);
+    const message = messages.find((res) => res.event === 'agent');
+    const streamEntry: StreamEntry = {
+      timestamp: new Date(),
+      content: markdownToPlainText(message?.data || ''),
+      type: 'agent',
+    };
+
+    setStreamEntries((prev) => [...prev, streamEntry]);
   }, []);
 
   const { postChat, isLoading } = useChat({ onSuccess: handleSuccess });
