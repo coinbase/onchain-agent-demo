@@ -1,3 +1,6 @@
+import { NFTData } from '@coinbase/onchainkit/nft';
+import { Address } from 'viem';
+
 export type Language = 'en' | 'th' | 'zh';
 
 export type StreamEntry = {
@@ -28,4 +31,9 @@ export type AnimatedData = {
 export type AgentMessage = {
   data?: string;
   event: 'agent' | 'tools' | 'completed';
+};
+
+export type NFT = NFTData & {
+  contractAddress: Address;
+  tokenId: string;
 };
