@@ -34,6 +34,7 @@ export default function useChat({ onSuccess }: UseChatProps): UseChatResponse {
         }
 
         const text = await response.text();
+        
         const parsedMessages = text
           .trim()
           .split('\n')
