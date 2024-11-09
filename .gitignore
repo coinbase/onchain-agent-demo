@@ -30,6 +30,7 @@ yarn-error.log*
 next-env.d.ts
 
 .env
+.env.example
 
 # python
 /api/__pycache__/

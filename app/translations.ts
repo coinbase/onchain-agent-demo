@@ -14,8 +14,8 @@ export const translations = {
       },
     },
     stream: {
-      realTime: 'Streaming real-time...',
-      thinking: 'Agent is thinking',
+      realTime: 'Streaming onchain real-time...',
+      thinking: 'Agent is observing',
       youAt: 'You at',
     },
     chat: {

@@ -91,7 +91,7 @@ export default function Stream({ className }: StreamProps) {
         {isThinking && (
           <div className="mt-4 flex items-center text-[#5788FA] opacity-70">
             <span className="max-w-full font-mono">
-              Agent is thinking
+              Agent is observing
               {loadingDots}
             </span>
           </div>

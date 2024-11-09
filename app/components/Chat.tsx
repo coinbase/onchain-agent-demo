@@ -114,7 +114,7 @@ export default function Chat({ className, getNFTs, getTokens }: ChatProps) {
       )}
     >
       <div className="flex grow flex-col overflow-y-auto p-4 pb-20">
-        <p className="text-zinc-500">Ask me something...</p>
+        <p className="text-zinc-500">What&apos;s on your mind...</p>
         <div className="mt-4 space-y-2" role="log" aria-live="polite">
           {streamEntries.map((entry, index) => (
             <StreamItem
