@@ -67,9 +67,10 @@ Steps:
 - Under `Secrets` in `Workspace Features`, add the environment variables below.
   - Tip: You can click `Edit as JSON` and copy the values below in.
 - Click `Deploy` in the top right.
-  - Tip: Deploy your backend first, as you'll need the deployment URL for the frontend's `NEXT_PUBLIC_API_URL` environment variable.
+  - Tip: Deploy your backend first, as you'll need the deployment URL to set as `NEXT_PUBLIC_API_URL` in the frontend.
+  - Tip: You can click `Run` to test if the applications run properly before deploying.
 
-**Backend**
+**Backend Secrets**
 ```
 {
   "CDP_API_KEY_NAME": "get this from https://portal.cdp.coinbase.com/projects/api-keys",
@@ -81,11 +82,13 @@ Steps:
 
 **Important: Replit resets the SQLite template on every deployment, before sending funds to your agent or using it on Mainnet be sure to read [Agent Wallet](https://github.com/coinbase/onchain-agent-demo-backend?tab=readme-ov-file#agent-wallet) and save your wallet ID and seed in a safe place.**
 
-**Frontend**
+**Frontend Secrets**
 ```
 {
   "NEXT_PUBLIC_API_URL": "your backend deployment URL here"
 }
+
+Note: you'll need to include the scheme (`https://`) in `NEXT_PUBLIC_API_URL`.
 
 ## License
 
