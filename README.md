@@ -87,6 +87,7 @@ Steps:
 {
   "NEXT_PUBLIC_API_URL": "your backend deployment URL here"
 }
+```
 
 Note: you'll need to include the scheme (`https://`) in `NEXT_PUBLIC_API_URL`.
 
