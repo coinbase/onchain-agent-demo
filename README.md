@@ -56,6 +56,37 @@ bun dev
 - Lint code: `bun run lint`
 - Run CI checks: `bun run ci:check`
 
+## Deploying to Replit
+
+- [Frontend Template](https://replit.com/@alissacrane1/onchain-agent-demo-frontend?v=1)
+- [Backend Template](https://replit.com/@alissacrane1/onchain-agent-demo-backend?v=1)
+
+Steps:
+- Sign up for a Replit account, or login to your existing one.
+- Navigate to the template links, and click `Use Template` on the top right hand side.
+- Under `Secrets` in `Workspace Features`, add the environment variables below.
+  - Tip: You can click `Edit as JSON` and copy the values below in.
+- Click `Deploy` in the top right.
+  - Tip: Deploy your backend first, as you'll need the deployment URL for the frontend's `NEXT_PUBLIC_API_URL` environment variable.
+
+**Backend**
+```
+{
+  "CDP_API_KEY_NAME": "get this from https://portal.cdp.coinbase.com/projects/api-keys",
+  "CDP_API_KEY_PRIVATE_KEY": "get this from https://portal.cdp.coinbase.com/projects/api-keys",
+  "OPENAI_API_KEY": "get this from https://platform.openai.com/api-keys",
+  "NETWORK_ID": "base-sepolia"
+}
+```
+
+**Important: Replit resets the SQLite template on every deployment, before sending funds to your agent or using it on Mainnet be sure to read [Agent Wallet](https://github.com/coinbase/onchain-agent-demo-backend?tab=readme-ov-file#agent-wallet) and save your wallet ID and seed in a safe place.**
+
+**Frontend**
+```
+{
+  "NEXT_PUBLIC_API_URL": "your backend deployment URL here"
+}
+
 ## License
 
 See [LICENSE.md](LICENSE.md) for details.
