@@ -86,6 +86,7 @@ Steps:
 {
   "NEXT_PUBLIC_API_URL": "your backend deployment URL here"
 }
+```
 
 ## License
 
